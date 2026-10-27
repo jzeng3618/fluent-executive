@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50 text-slate-900">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Executive & Spoken English Coach</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-full flex flex-col font-sans bg-slate-50 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo & Branding -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-100">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-lg text-slate-900 tracking-tight">FluentExecutive</span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Gemini AI</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Business English & Executive Communication Suite</p>
+          </div>
+        </div>
+
+        <!-- Tab Navigation Buttons -->
+        <nav class="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+          <button data-tab="writing" class="tab-btn active px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 text-slate-700">
+            <i data-lucide="file-edit" class="w-4 h-4"></i>
+            <span>Writing Studio</span>
+          </button>
+          <button data-tab="roleplay" class="tab-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 text-slate-700">
+            <i data-lucide="mic" class="w-4 h-4"></i>
+            <span>Voice Roleplay</span>
+          </button>
+          <button data-tab="diagnostics" class="tab-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 text-slate-700">
+            <i data-lucide="gauge" class="w-4 h-4"></i>
+            <span>Speech Diagnostics</span>
+          </button>
+          <button data-tab="vault" class="tab-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 text-slate-700">
+            <i data-lucide="bookmark" class="w-4 h-4"></i>
+            <span>Phrase Vault</span>
+          </button>
+        </nav>
+
+        <!-- Header Actions: API Key Status & Settings -->
+        <div class="flex items-center gap-2.5">
+          <button id="apiKeyBadgeBtn" class="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 transition-colors">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" id="apiStatusDot"></span>
+            <span id="apiStatusText">Setup Gemini Key</span>
+          </button>
+
+          <button id="openSettingsBtn" title="Settings" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors border border-slate-200">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Tab Bar -->
+      <div class="flex md:hidden overflow-x-auto py-2 border-t border-slate-100 gap-1 scrollbar-none">
+        <button data-tab="writing" class="tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex items-center gap-1.5">
+          <i data-lucide="file-edit" class="w-3.5 h-3.5"></i> Writing
+        </button>
+        <button data-tab="roleplay" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex items-center gap-1.5">
+          <i data-lucide="mic" class="w-3.5 h-3.5"></i> Roleplay
+        </button>
+        <button data-tab="diagnostics" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex items-center gap-1.5">
+          <i data-lucide="gauge" class="w-3.5 h-3.5"></i> Diagnostics
+        </button>
+        <button data-tab="vault" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex items-center gap-1.5">
+          <i data-lucide="bookmark" class="w-3.5 h-3.5"></i> Vault
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- TAB 1: BUSINESS WRITING & TONE STUDIO -->
+    <section id="tab-writing" class="tab-content block space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Business Writing & Tone Refiner</h1>
+          <p class="text-sm text-slate-500">Transform drafts into high-impact, diplomatically polished corporate communications.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="writingSampleBtn" class="text-xs font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-colors border border-indigo-200">
+            Load Sample Draft
+          </button>
+          <button id="clearWritingBtn" class="text-xs font-medium text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls: Context & Tone Matrix -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Communication Goal / Format</label>
+          <select id="writingFormat" class="w-full text-sm rounded-lg border-slate-200 bg-slate-50 px-3 py-2 border focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="email">Formal Workplace Email</option>
+            <option value="slack">Slack / Teams Instant Message</option>
+            <option value="pushback">Disagreeing / Saying "No" Diplomatically</option>
+            <option value="escalation">Issue Escalation & Blockers</option>
+            <option value="proposal">Project Proposal / Executive Pitch</option>
+            <option value="performance">Feedback & Performance Review</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Target Tone & Persona</label>
+          <select id="writingTone" class="w-full text-sm rounded-lg border-slate-200 bg-slate-50 px-3 py-2 border focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="executive">Executive & Concise (BLUF - Bottom Line Up Front)</option>
+            <option value="diplomatic">Diplomatic & Tactful (Softening conflict)</option>
+            <option value="assertive">Assertive & Decisive (Firm boundaries)</option>
+            <option value="warm">Warm & Collaborative (Team-building & praise)</option>
+            <option value="persuasive">Persuasive & Stakeholder-focused</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Recipient Seniority</label>
+          <select id="writingAudience" class="w-full text-sm rounded-lg border-slate-200 bg-slate-50 px-3 py-2 border focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="c_level">C-Suite / VP / Senior Director</option>
+            <option value="peer">Peer / Cross-functional Colleague</option>
+            <option value="direct_report">Direct Report / Mentee</option>
+            <option value="external_client">External Client / Key Partner</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Two-column Editor & Refined Output -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Input Draft Column -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5 text-slate-400"></i> Your Original Draft
+            </span>
+            <span id="inputCharCount" class="text-xs text-slate-400">0 characters</span>
+          </div>
+
+          <textarea id="writingInput" rows="11" placeholder="Paste your rough draft, bullet points, or email here... (e.g. 'Hey, we can't do this feature by Friday because backend is broken. You need to tell the client next week.')" class="w-full flex-1 p-3.5 text-sm rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none resize-none leading-relaxed text-slate-800 placeholder:text-slate-400 font-sans"></textarea>
+
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-indigo-500"></i>
+              <span>Grammar, tone & corporate idioms analyzed</span>
+            </div>
+            <button id="refineWritingBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm px-5 py-2.5 rounded-xl transition-all shadow-md shadow-indigo-100 flex items-center gap-2 group">
+              <i data-lucide="wand-2" class="w-4 h-4 group-hover:rotate-12 transition-transform"></i>
+              <span>Refine with Gemini</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Refined Output Column -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-500"></i> Executive Polish
+            </span>
+            <div class="flex items-center gap-1.5">
+              <button id="copyRefinedBtn" class="text-xs font-medium text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200 transition-colors flex items-center gap-1">
+                <i data-lucide="copy" class="w-3 h-3"></i> Copy
+              </button>
+              <button id="saveRefinedToVaultBtn" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-md border border-indigo-200 transition-colors flex items-center gap-1">
+                <i data-lucide="bookmark-plus" class="w-3 h-3"></i> Save Key Phrase
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading state -->
+          <div id="writingLoading" class="hidden flex-1 flex flex-col items-center justify-center py-16 text-slate-400">
+            <div class="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+            <p class="text-xs font-medium text-slate-600">Analyzing corporate nuance & drafting executive rewrite...</p>
+          </div>
+
+          <!-- Result container -->
+          <div id="writingOutputContainer" class="flex-1 flex flex-col">
+            <div id="writingEmptyState" class="flex-1 flex flex-col items-center justify-center py-14 text-center text-slate-400">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-3">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+              </div>
+              <p class="text-sm font-medium text-slate-600">Your refined message will appear here</p>
+              <p class="text-xs text-slate-400 max-w-xs mt-1">Select your desired tone and click "Refine with Gemini".</p>
+            </div>
+
+            <div id="writingOutputBody" class="hidden flex-1 space-y-4">
+              <!-- Rewritten Text -->
+              <div class="p-4 bg-slate-50/80 rounded-xl border border-slate-200/80 text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap select-text" id="refinedText"></div>
+
+              <!-- Communication Breakdown Accordion -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden text-xs">
+                <div class="bg-slate-100/70 px-4 py-2 font-semibold text-slate-700 flex items-center gap-2">
+                  <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i>
+                  <span>Why this rewrite is more effective</span>
+                </div>
+                <div id="writingBreakdown" class="p-4 space-y-2 bg-white text-slate-600"></div>
+              </div>
+
+              <!-- Alternative Vocabulary Suggestions -->
+              <div id="writingVocabSuggestions" class="p-3.5 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs">
+                <span class="font-bold text-indigo-900 block mb-1.5 flex items-center gap-1.5">
+                  <i data-lucide="tag" class="w-3.5 h-3.5 text-indigo-600"></i> Advanced Business Phrasing Upgrades:
+                </span>
+                <div id="writingVocabBadges" class="flex flex-wrap gap-1.5"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: VOICE ROLEPLAY & INTERACTIVE SCENARIOS -->
+    <section id="tab-roleplay" class="tab-content hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Interactive Spoken English Roleplay</h1>
+          <p class="text-sm text-slate-500">Simulate tough business conversations with Gemini. Practice speaking out loud with instant speech feedback.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="endRoleplayDebriefBtn" class="hidden text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+            <i data-lucide="award" class="w-3.5 h-3.5"></i> Finish & Get Debrief
+          </button>
+          <button id="resetRoleplayBtn" class="text-xs font-medium text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors">
+            Reset Scenario
+          </button>
+        </div>
+      </div>
+
+      <!-- Scenario Selector Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="scenarioCardsContainer">
+        <!-- Scenario 1 -->
+        <button class="scenario-card active text-left p-4 rounded-xl border-2 border-indigo-600 bg-indigo-50/30 transition-all hover:shadow-sm" data-scenario="deadline_negotiation">
+          <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2.5">
+            <i data-lucide="clock" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900">Deadline & Scope Pushback</h3>
+          <p class="text-xs text-slate-500 mt-1 line-clamp-2">A demanding client or PM asks for unrealistic deliverables. Push back diplomatically.</p>
+        </button>
+
+        <!-- Scenario 2 -->
+        <button class="scenario-card text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 transition-all hover:shadow-sm" data-scenario="salary_review">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2.5">
+            <i data-lucide="trending-up" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900">Performance & Raise Review</h3>
+          <p class="text-xs text-slate-500 mt-1 line-clamp-2">Pitch your achievements and negotiate promotion or salary increase with your VP.</p>
+        </button>
+
+        <!-- Scenario 3 -->
+        <button class="scenario-card text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 transition-all hover:shadow-sm" data-scenario="executive_standup">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center mb-2.5">
+            <i data-lucide="users" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900">High-Stakes Standup Update</h3>
+          <p class="text-xs text-slate-500 mt-1 line-clamp-2">Give a crisp 60-second update to cross-functional leaders about a critical blocker.</p>
+        </button>
+
+        <!-- Scenario 4 -->
+        <button class="scenario-card text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-300 transition-all hover:shadow-sm" data-scenario="stakeholder_demo">
+          <div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center mb-2.5">
+            <i data-lucide="presentation" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900">Handling Tough Q&A / Objections</h3>
+          <p class="text-xs text-slate-500 mt-1 line-clamp-2">You just finished a demo and a skeptic stakeholder challenges your architecture.</p>
+        </button>
+      </div>
+
+      <!-- Dialogue Arena -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[520px]">
+        <!-- Roleplay Header -->
+        <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70 rounded-t-2xl">
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <div class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm" id="roleplayPartnerAvatar">
+                AI
+              </div>
+              <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white"></span>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900" id="roleplayPartnerName">Sarah Jenkins (VP of Product)</h4>
+              <p class="text-[11px] text-slate-500" id="roleplayPartnerRole">Persona: Direct, busy, data-driven</p>
+            </div>
+          </div>
+
+          <!-- Voice Out Toggle -->
+          <div class="flex items-center gap-2">
+            <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+              <input type="checkbox" id="voiceResponseToggle" checked class="rounded text-indigo-600 focus:ring-indigo-500">
+              <span class="flex items-center gap-1 font-medium"><i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Read aloud</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Chat Conversation History -->
+        <div id="roleplayChatBox" class="flex-1 p-5 overflow-y-auto space-y-4">
+          <!-- Messages inserted dynamically -->
+        </div>
+
+        <!-- Live Audio Controls & Input Area -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl">
+          <!-- Live Speech Visualizer Bar (when listening) -->
+          <div id="recordingIndicator" class="hidden mb-3 p-2.5 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between text-xs text-red-700 animate-pulse">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
+              <span class="font-semibold">Listening to your speech... Speak naturally!</span>
+            </div>
+            <span class="text-red-500 font-mono text-[11px]">Web Speech Active</span>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <!-- Voice Input Button (Microphone) -->
+            <button id="roleplayMicBtn" title="Hold or Click to Speak" class="h-11 w-11 shrink-0 rounded-xl bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center transition-all shadow-sm">
+              <i data-lucide="mic" class="w-5 h-5" id="roleplayMicIcon"></i>
+            </button>
+
+            <!-- Text Input Fallback -->
+            <div class="relative flex-1">
+              <input type="text" id="roleplayInputText" placeholder="Speak with the mic or type your response here... (Press Enter to send)" class="w-full h-11 px-4 text-sm bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-slate-400">
+            </div>
+
+            <!-- Send Button -->
+            <button id="roleplaySendBtn" class="h-11 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center gap-1.5 shadow-sm shadow-indigo-100">
+              <span>Send</span>
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post-Roleplay Debrief Modal / Container -->
+      <div id="roleplayDebriefCard" class="hidden bg-white p-6 rounded-2xl border border-emerald-200 shadow-md space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2 text-emerald-800">
+            <i data-lucide="check-check" class="w-5 h-5 text-emerald-600"></i>
+            <h2 class="font-bold text-lg">Performance Debrief & Scorecard</h2>
+          </div>
+          <button id="closeDebriefBtn" class="text-slate-400 hover:text-slate-600">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <div id="roleplayDebriefContent" class="text-sm text-slate-700 leading-relaxed space-y-3">
+          <!-- Injected via Gemini -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: SPEECH DIAGNOSTICS & ELEVATOR PITCH -->
+    <section id="tab-diagnostics" class="tab-content hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Speech Diagnostics & Impromptu Pitch Coach</h1>
+          <p class="text-sm text-slate-500">Practice speaking cleanly without filler words ("um", "like", "you know"). Get pacing and structural ratings.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="presetPitchPromptBtn" class="text-xs font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg border border-indigo-200 transition-colors">
+            Surprise Prompt
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Speaking Challenge Banner -->
+      <div class="p-4 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-200 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-100/70 px-2.5 py-0.5 rounded-full">Speaking Drill Prompt</span>
+          <h3 class="text-base font-semibold text-slate-900 mt-1" id="activeDrillPrompt">"Explain a complex technical project you completed to a non-technical executive in 60 seconds."</h3>
+          <p class="text-xs text-slate-600 mt-0.5">Focus on: PREP framework (Point -> Reason -> Example -> Point) and zero filler words.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <div class="font-mono text-2xl font-bold text-slate-900" id="pitchTimer">00:00</div>
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider">Timer</span>
+          </div>
+          <button id="togglePitchRecordBtn" class="bg-red-600 hover:bg-red-700 text-white font-medium text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-red-200 flex items-center gap-2">
+            <i data-lucide="mic" class="w-4 h-4"></i>
+            <span id="pitchRecordBtnText">Start Speaking Drill</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Speech Transcript & Metrics Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Live Transcript Display -->
+        <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-80">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Live Speech Transcription</span>
+            <span class="text-xs text-slate-400" id="speechWordCount">0 words</span>
+          </div>
+          <div id="speechLiveTranscript" class="flex-1 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-sm text-slate-800 leading-relaxed overflow-y-auto font-sans">
+            <span class="text-slate-400 italic">Click "Start Speaking Drill" and speak your pitch into your microphone. Your words will transcribe here in real-time...</span>
+          </div>
+        </div>
+
+        <!-- Metric Badges & Real-Time Stats -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Real-Time Fluency Vitals</h3>
+
+          <!-- Filler words card -->
+          <div class="p-3.5 bg-rose-50 border border-rose-100 rounded-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-rose-700">Filler Words Detected</span>
+              <span class="text-lg font-bold font-mono text-rose-700" id="fillerWordCount">0</span>
+            </div>
+            <p class="text-[11px] text-rose-600 mt-1" id="fillerWordList">"um", "uh", "you know", "basically", "like"</p>
+          </div>
+
+          <!-- Pace / WPM -->
+          <div class="p-3.5 bg-blue-50 border border-blue-100 rounded-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-blue-700">Pacing (Words/Min)</span>
+              <span class="text-lg font-bold font-mono text-blue-700" id="wpmCounter">--</span>
+            </div>
+            <p class="text-[11px] text-blue-600 mt-1">Optimal executive pace: 130 - 155 WPM</p>
+          </div>
+
+          <button id="analyzePitchBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs py-2.5 rounded-xl transition-all shadow-md shadow-indigo-100 flex items-center justify-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>Analyze Pitch with Gemini</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Gemini Comprehensive Pitch Critique -->
+      <div id="pitchCritiqueCard" class="hidden bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+          <i data-lucide="file-check-2" class="w-5 h-5 text-indigo-600"></i>
+          <span>Gemini Speech & Executive Presence Evaluation</span>
+        </h3>
+        <div id="pitchCritiqueBody" class="text-sm text-slate-700 leading-relaxed space-y-3">
+          <!-- Injected via Gemini -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PHRASEBOOK VAULT -->
+    <section id="tab-vault" class="tab-content hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Executive Phrasebook & Idiom Vault</h1>
+          <p class="text-sm text-slate-500">High-leverage business idioms, transitions, and diplomatic pushbacks. Practice with spaced flashcards.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="addCustomPhraseBtn" class="text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Custom Phrase
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex flex-wrap items-center gap-2" id="phraseCategoryFilters">
+        <button class="phrase-filter-btn active px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white" data-category="all">All (50+)</button>
+        <button class="phrase-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-slate-50" data-category="pushback">Diplomatic Pushback</button>
+        <button class="phrase-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-slate-50" data-category="executive">Executive Summaries</button>
+        <button class="phrase-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-slate-50" data-category="transitions">Smooth Transitions</button>
+        <button class="phrase-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-slate-50" data-category="negotiation">Negotiation & Scope</button>
+      </div>
+
+      <!-- Phrase Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="phraseCardsGrid">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: SETTINGS & GEMINI API KEY -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl border border-slate-200 shadow-xl p-6 space-y-5 animate-in fade-in duration-150">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2 text-slate-900 font-bold">
+          <i data-lucide="key" class="w-4 h-4 text-indigo-600"></i>
+          <span>Gemini API Configuration</span>
+        </div>
+        <button id="closeSettingsModalBtn" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Google Gemini API Key</label>
+          <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono text-xs">
+          <p class="text-slate-400 mt-1">Get your free API key at <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 hover:underline">Google AI Studio</a>. Saved locally in your browser.</p>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Gemini Model</label>
+          <select id="modelSelect" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (Fastest, Recommended for Speech & Writing)</option>
+            <option value="gemini-2.5-pro">Gemini 2.5 Pro (Deepest reasoning & advanced critique)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Legacy)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Speech Voice (Read Aloud)</label>
+          <select id="voiceSelect" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="">Default English Voice</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <button id="testApiKeyBtn" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 py-2 px-3 rounded-lg hover:bg-indigo-50 transition-colors">
+          Test Connection
+        </button>
+        <button id="saveApiKeyBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
